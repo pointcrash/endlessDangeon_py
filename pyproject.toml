@@ -13,7 +13,10 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["black>=24.10.0,<25"]
+dev = [
+    "black>=24.10.0,<25",
+    "pytest>=8.3.4",
+]
 
 [tool.uv]
 package = false
