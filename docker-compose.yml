@@ -3,13 +3,17 @@ services:
   postgres:
     image: postgres
     environment:
-      POSTGRES_DB: db
+      POSTGRES_DB: mygamedb
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
 
-  adminer:
-    image: adminer
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVICE_MODE: 'False'
     ports:
-      - "8080:8080"
+      - "5050:80"
