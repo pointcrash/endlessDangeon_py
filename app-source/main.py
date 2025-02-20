@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
 from api import router as api_router
 from core.config import settings
@@ -18,7 +19,16 @@ async def lifespan(app: FastAPI):
 
 main_app = FastAPI(lifespan=lifespan, default_response_class=ORJSONResponse)
 
-main_app.include_router(api_router, prefix=settings.api.prefix)
+main_app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+main_app.include_router(api_router)
 
 if __name__ == "__main__":
     uvicorn.run(
