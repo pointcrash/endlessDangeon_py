@@ -8,6 +8,7 @@ from .mixins.user_relation import UserRelationMixin
 
 if TYPE_CHECKING:
     from . import CharacterEquipment
+    from . import Inventory
 
 
 class PlayerCharacter(Character, UserRelationMixin):
@@ -15,3 +16,4 @@ class PlayerCharacter(Character, UserRelationMixin):
     _user_back_populates = "character"
 
     equipment: Mapped["CharacterEquipment"] = relationship(back_populates="character")
+    inventory: Mapped["Inventory"] = relationship(back_populates="character")
