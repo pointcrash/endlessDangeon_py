@@ -1,4 +1,4 @@
-from .character_abs import Character
+from .abs.character import Character
 from .mixins.user_relation import UserRelationMixin
 
 
