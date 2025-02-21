@@ -5,7 +5,7 @@ from .mixins.int_id_pk import IntIdPkMixin
 from .mixins.player_char_rel import PlayerCharacterRelationMixin
 
 
-class CharacterEquipment(IntIdPkMixin, PlayerCharacterRelationMixin, Base):
+class Inventory(IntIdPkMixin, PlayerCharacterRelationMixin, Base):
     _character_id_unique = True
     _character_back_populates = "inventory"
 
