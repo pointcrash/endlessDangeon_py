@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class InventoryBase(BaseModel):
-    user_id: int
+    pass
 
 
 class InventoryExpandBase(InventoryBase):
@@ -11,7 +11,7 @@ class InventoryExpandBase(InventoryBase):
 
 
 class InventoryCreate(InventoryBase):
-    pass
+    character_id: int
 
 
 class InventoryUpdate(InventoryExpandBase):
@@ -24,4 +24,5 @@ class InventoryPartialUpdate(InventoryExpandBase):
 
 
 class InventoryRead(InventoryExpandBase):
+    character_id: int
     id: int
