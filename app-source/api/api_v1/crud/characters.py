@@ -25,8 +25,8 @@ async def get_character_by_id(
 ) -> PlayerCharacter | None:
     stmt = select(PlayerCharacter).where(PlayerCharacter.id == character_id)
     result = await session.execute(stmt)
-    user = result.scalar_one_or_none()
-    return user
+    character = result.scalar_one_or_none()
+    return character
 
 
 async def create_character(

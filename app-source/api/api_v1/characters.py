@@ -29,19 +29,18 @@ async def create_character(
     character_create: PlayerCharacterCreate,
     session: AsyncSession = Depends(db_helper.session_getter),
 ):
-    # try:
-    character = await characters_crud.create_character(
-        session=session, character_create=character_create
-    )
-    return character
+    try:
+        character = await characters_crud.create_character(
+            session=session, character_create=character_create
+        )
+        return character
 
-
-# except IntegrityError:
-#     raise HTTPException(
-#         status_code=400, detail="Персонаж с такими данными уже существует"
-#     )
-# except Exception as e:
-#     raise HTTPException(status_code=500, detail=f"Ошибка сервера: {str(e)}")
+    except IntegrityError:
+        raise HTTPException(
+            status_code=400, detail="Персонаж с такими данными уже существует"
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Ошибка сервера: {str(e)}")
 
 
 @router.get("/{character_id}", response_model=PlayerCharacterRead)
@@ -65,7 +64,7 @@ async def update_character(
 
 
 @router.patch("/{character_id}")
-async def partial_update_user(
+async def partial_update_character(
     character_update: PlayerCharacterPartialUpdate,
     character: PlayerCharacter = Depends(get_character_by_id),
     session: AsyncSession = Depends(db_helper.session_getter),
@@ -79,7 +78,7 @@ async def partial_update_user(
 
 
 @router.delete("/{character_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_user(
+async def delete_character(
     character: PlayerCharacter = Depends(get_character_by_id),
     session: AsyncSession = Depends(db_helper.session_getter),
 ) -> None:
