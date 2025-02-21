@@ -11,4 +11,4 @@ class Character(IntIdPkMixin, Base):
     lvl: Mapped[int] = mapped_column(default=1, server_default="1")
     hp: Mapped[int] = mapped_column(default=1, server_default="1")
     mp: Mapped[int] = mapped_column(default=0, server_default="0")
-    image: Mapped[str]
+    image: Mapped[str] = mapped_column(default="", server_default="")
