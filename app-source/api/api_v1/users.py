@@ -6,8 +6,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from .crud import users as users_crud
 from core.config import settings
-from core.models import db_helper
-from core.schemas.user import UserRead, UserCreate
+from core.models import db_helper, User
+from core.schemas.user import UserRead, UserCreate, UserUpdate, UserUpdatePartial
+from .dependencies.user import get_user_by_telegram_id
 
 router = APIRouter(prefix=settings.api.v1.users, tags=["Users"])
 
@@ -20,11 +21,8 @@ async def get_users(session: AsyncSession = Depends(db_helper.session_getter)):
 
 @router.post("", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 async def create_user(
-    session: Annotated[
-        AsyncSession,
-        Depends(db_helper.session_getter),
-    ],
     user_create: UserCreate,
+    session: AsyncSession = Depends(db_helper.session_getter),
 ):
     try:
         user = await users_crud.create_user(session=session, user_create=user_create)
@@ -38,18 +36,45 @@ async def create_user(
 
 
 @router.get("/{telegram_id}", response_model=UserRead)
-async def get_users(
-    telegram_id: int,
-    session: Annotated[
-        AsyncSession,
-        Depends(db_helper.session_getter),
-    ],
+async def get_user(
+    user: User = Depends(get_user_by_telegram_id),
 ):
-    user = await users_crud.get_user_by_telegram_id(
-        session=session, telegram_id=telegram_id
+    return user
+
+
+@router.put("/{telegram_id}")
+async def update_user(
+    user_update: UserUpdate,
+    user: User = Depends(get_user_by_telegram_id),
+    session: AsyncSession = Depends(db_helper.session_getter),
+):
+    return await users_crud.update_user(
+        session=session,
+        user=user,
+        user_update=user_update,
     )
 
-    if user is None:
-        raise HTTPException(status_code=404, detail="Пользователь не найден")
 
-    return user
+@router.patch("/{telegram_id}")
+async def partial_update_user(
+    user_update: UserUpdatePartial,
+    user: User = Depends(get_user_by_telegram_id),
+    session: AsyncSession = Depends(db_helper.session_getter),
+):
+    return await users_crud.update_user(
+        session=session,
+        user=user,
+        user_update=user_update,
+        partial=True,
+    )
+
+
+@router.delete("/{telegram_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_user(
+    user: User = Depends(get_user_by_telegram_id),
+    session: AsyncSession = Depends(db_helper.session_getter),
+) -> None:
+    await users_crud.delete_user(
+        session=session,
+        user=user,
+    )

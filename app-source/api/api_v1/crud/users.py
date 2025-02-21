@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import User
-from core.schemas.user import UserCreate
+from core.schemas.user import UserCreate, UserUpdate, UserUpdatePartial
 
 
 async def get_all_users(
@@ -37,4 +37,24 @@ async def create_user(
         return user
     except IntegrityError:
         await session.rollback()
-        raise  # Пробрасываем ошибку наверх
+        raise
+
+
+async def update_user(
+    session: AsyncSession,
+    user: User,
+    user_update: UserUpdate | UserUpdatePartial,
+    partial: bool = False,
+) -> User:
+    for name, value in user_update.model_dump(exclude_unset=partial).items():
+        setattr(user, name, value)
+    await session.commit()
+    return user
+
+
+async def delete_user(
+    session: AsyncSession,
+    user: User,
+) -> None:
+    await session.delete(user)
+    await session.commit()
