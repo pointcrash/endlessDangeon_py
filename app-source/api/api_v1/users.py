@@ -1,5 +1,3 @@
-from typing import Annotated
-
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -8,7 +6,7 @@ from .crud import users as users_crud
 from core.config import settings
 from core.models import db_helper, User
 from core.schemas.user import UserRead, UserCreate, UserUpdate, UserUpdatePartial
-from .dependencies.user import get_user_by_telegram_id
+from .dependencies.users import get_user_by_telegram_id
 
 router = APIRouter(prefix=settings.api.v1.users, tags=["Users"])
 
