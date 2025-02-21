@@ -15,7 +15,7 @@ class PlayerCharacterRelationMixin:
     @declared_attr
     def character_id(cls) -> Mapped[int]:
         return mapped_column(
-            ForeignKey("player_character.id"),
+            ForeignKey("player_characters.id"),
             unique=cls._character_id_unique,
             nullable=cls._character_id_nullable,
         )
