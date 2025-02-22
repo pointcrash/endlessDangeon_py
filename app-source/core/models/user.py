@@ -16,3 +16,10 @@ class User(IntIdPkMixin, Base):
     language: Mapped[str] = mapped_column()
 
     character: Mapped["PlayerCharacter"] = relationship(back_populates="user")
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        from .player_char import PlayerCharacter
+
+        self.character = PlayerCharacter(user=self)

@@ -17,3 +17,12 @@ class PlayerCharacter(Character, UserRelationMixin):
 
     equipment: Mapped["CharacterEquipment"] = relationship(back_populates="character")
     inventory: Mapped["Inventory"] = relationship(back_populates="character")
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        from . import CharacterEquipment
+        from . import Inventory
+
+        self.equipment = CharacterEquipment(character=self)
+        self.inventory = Inventory(character=self)
