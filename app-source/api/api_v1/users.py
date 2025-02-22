@@ -2,11 +2,15 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from core.schemas.users_all_data import UserAllData
 from .crud import users as users_crud
 from core.config import settings
 from core.models import db_helper, User
 from core.schemas.user import UserRead, UserCreate, UserUpdate, UserUpdatePartial
-from .dependencies.users import get_user_by_telegram_id
+from .dependencies.users import (
+    get_user_by_telegram_id,
+    get_user_all_data_by_telegram_id,
+)
 
 router = APIRouter(prefix=settings.api.v1.users, tags=["Users"])
 
@@ -25,10 +29,8 @@ async def create_user(
     try:
         user = await users_crud.create_user(session=session, user_create=user_create)
         return user
-    except IntegrityError:
-        raise HTTPException(
-            status_code=400, detail="Пользователь с такими данными уже существует"
-        )
+    except IntegrityError as e:
+        raise HTTPException(status_code=400, detail=f"Ошибка сервера: {str(e)}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Ошибка сервера: {str(e)}")
 
@@ -36,6 +38,13 @@ async def create_user(
 @router.get("/{telegram_id}", response_model=UserRead)
 async def get_user(
     user: User = Depends(get_user_by_telegram_id),
+):
+    return user
+
+
+@router.get("/{telegram_id}/all_data", response_model=UserAllData)
+async def get_user_all_data(
+    user: User = Depends(get_user_all_data_by_telegram_id),
 ):
     return user
 

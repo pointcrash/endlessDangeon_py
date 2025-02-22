@@ -3,8 +3,9 @@ from typing import Sequence
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import joinedload
 
-from core.models import User
+from core.models import User, PlayerCharacter
 from core.schemas.user import UserCreate, UserUpdate, UserUpdatePartial
 
 
@@ -22,6 +23,22 @@ async def get_user_by_telegram_id(
     stmt = select(User).where(User.telegram_id == telegram_id)
     result = await session.execute(stmt)
     user = result.scalar_one_or_none()
+    return user
+
+
+async def get_all_user_data_by_telegram_id(
+    session: AsyncSession, telegram_id: int
+) -> User | None:
+    stmt = (
+        select(User)
+        .where(User.telegram_id == telegram_id)
+        .options(
+            joinedload(User.character),
+            joinedload(User.character).joinedload(PlayerCharacter.inventory),
+            joinedload(User.character).joinedload(PlayerCharacter.equipment),
+        )
+    )
+    user = await session.scalar(stmt)
     return user
 
 
