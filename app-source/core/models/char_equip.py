@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import Mapped, mapped_column
 
 from core.models.base import Base
 from .mixins.int_id_pk import IntIdPkMixin
@@ -9,10 +9,10 @@ class CharacterEquipment(IntIdPkMixin, PlayerCharacterRelationMixin, Base):
     _character_id_unique = True
     _character_back_populates = "equipment"
 
-    helmet: Mapped[int]
-    body_armour: Mapped[int]
-    boots: Mapped[int]
-    gloves: Mapped[int]
-    backpack: Mapped[int]
-    weapon_1: Mapped[int]
-    weapon_2: Mapped[int]
+    helmet: Mapped[int] = mapped_column(nullable=True)
+    body_armour: Mapped[int] = mapped_column(nullable=True)
+    boots: Mapped[int] = mapped_column(nullable=True)
+    gloves: Mapped[int] = mapped_column(nullable=True)
+    backpack: Mapped[int] = mapped_column(nullable=True)
+    weapon_1: Mapped[int] = mapped_column(nullable=True)
+    weapon_2: Mapped[int] = mapped_column(nullable=True)

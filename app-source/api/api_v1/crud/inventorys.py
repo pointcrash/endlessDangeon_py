@@ -24,8 +24,9 @@ async def get_inventory_by_id(
     session: AsyncSession, inventory_id: int
 ) -> Inventory | None:
     stmt = select(Inventory).where(Inventory.id == inventory_id)
-    result = await session.execute(stmt)
-    inventory = result.scalar_one_or_none()
+    # result = await session.execute(stmt)
+    # inventory = result.scalar_one_or_none()
+    inventory: Inventory | None = await session.scalar(stmt)
     return inventory
 
 
