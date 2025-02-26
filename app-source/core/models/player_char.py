@@ -14,6 +14,8 @@ if TYPE_CHECKING:
 class PlayerCharacter(Character, UserRelationMixin):
     _user_id_unique = True
     _user_back_populates = "character"
+
+    _location_id_nullable: bool = True
     _location_back_populates = "characters"
 
     equipment: Mapped["CharacterEquipment"] = relationship(back_populates="character")

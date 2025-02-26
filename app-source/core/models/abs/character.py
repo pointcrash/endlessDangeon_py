@@ -5,7 +5,11 @@ from core.models.mixins.int_id_pk import IntIdPkMixin
 from core.models.mixins.location_rel import LocationRelationMixin
 
 
-class Character(IntIdPkMixin, LocationRelationMixin, Base):
+class Character(
+    IntIdPkMixin,
+    LocationRelationMixin,
+    Base,
+):
     __abstract__ = True
 
     name: Mapped[str] = mapped_column(nullable=True, unique=True)
