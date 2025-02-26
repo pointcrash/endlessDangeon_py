@@ -8,6 +8,7 @@ __all__ = (
     "Inventory",
     "Item",
     "Location",
+    "Enemy",
 )
 
 from .db_helper import db_helper
@@ -19,3 +20,4 @@ from .char_equip import CharacterEquipment
 from .inventory import Inventory
 from .item import Item
 from .location import Location
+from .enemy import Enemy
