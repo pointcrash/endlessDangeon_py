@@ -7,6 +7,7 @@ __all__ = (
     "CharacterEquipment",
     "Inventory",
     "Item",
+    "Location",
 )
 
 from .db_helper import db_helper
@@ -17,3 +18,4 @@ from .npc import NPC
 from .char_equip import CharacterEquipment
 from .inventory import Inventory
 from .item import Item
+from .location import Location

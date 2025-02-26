@@ -7,13 +7,14 @@ from .mixins.user_relation import UserRelationMixin
 
 
 if TYPE_CHECKING:
-    from . import CharacterEquipment
-    from . import Inventory
+    from .char_equip import CharacterEquipment
+    from .inventory import Inventory
 
 
 class PlayerCharacter(Character, UserRelationMixin):
     _user_id_unique = True
     _user_back_populates = "character"
+    _location_back_populates = "characters"
 
     equipment: Mapped["CharacterEquipment"] = relationship(back_populates="character")
     inventory: Mapped["Inventory"] = relationship(back_populates="character")
