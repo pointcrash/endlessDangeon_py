@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from core.schemas.inventorys import (
+from core.schemas.inventory import (
     InventoryRead,
     InventoryCreate,
     InventoryUpdate,
