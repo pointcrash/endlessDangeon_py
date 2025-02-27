@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import Inventory
-from core.schemas.inventorys import (
+from core.schemas.inventory import (
     InventoryCreate,
     InventoryUpdate,
     InventoryPartialUpdate,
