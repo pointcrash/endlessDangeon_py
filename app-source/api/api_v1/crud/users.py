@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
-from core.models import User, PlayerCharacter
+from core.models import User, PlayerCharacter, Location
 from core.schemas.user import UserCreate, UserUpdate, UserUpdatePartial
 
 
@@ -36,6 +36,16 @@ async def get_all_user_data_by_telegram_id(
             joinedload(User.character),
             joinedload(User.character).joinedload(PlayerCharacter.inventory),
             joinedload(User.character).joinedload(PlayerCharacter.equipment),
+            joinedload(User.character).joinedload(PlayerCharacter.location),
+            joinedload(User.character)
+            .joinedload(PlayerCharacter.location)
+            .joinedload(Location.npcs),
+            joinedload(User.character)
+            .joinedload(PlayerCharacter.location)
+            .joinedload(Location.enemies),
+            joinedload(User.character)
+            .joinedload(PlayerCharacter.location)
+            .joinedload(Location.characters),
         )
     )
     user = await session.scalar(stmt)
