@@ -7,6 +7,7 @@ class PlayerCharacterBase(BaseModel):
 
 
 class PlayerCharacterExpandBase(BaseModel):
+    name: str
     lvl: int
     hp: int
     mp: int
