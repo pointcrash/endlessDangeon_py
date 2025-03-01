@@ -13,6 +13,8 @@ class ApiV1Prefix(BaseModel):
     characters: str = "/characters"
     inventory: str = "/inventory"
     locations: str = "/locations"
+    enemies: str = "/enemies"
+    npc: str = "/npc"
 
 
 class ApiPrefix(BaseModel):
