@@ -1,10 +1,11 @@
+from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from core.models.base import Base
 from core.models.mixins.int_id_pk import IntIdPkMixin
-
+from .associations import location_association
 
 if TYPE_CHECKING:
     from .player_char import PlayerCharacter
@@ -21,3 +22,11 @@ class Location(IntIdPkMixin, Base):
     )
     npcs: Mapped[list["NPC"]] = relationship(back_populates="location")
     enemies: Mapped[list["Enemy"]] = relationship(back_populates="location")
+
+    related_locations: Mapped[list[Location]] = relationship(
+        "Location",
+        secondary=location_association,
+        primaryjoin="Location.id == location_association.c.location_id",
+        secondaryjoin="Location.id == location_association.c.related_location_id",
+        backref="related_to",
+    )

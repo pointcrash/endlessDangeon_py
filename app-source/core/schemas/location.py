@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-from core.schemas.character import PlayerCharacterRead
+from core.schemas.character import PlayerCharacterBase
 from core.schemas.enemy import EnemyRead
 from core.schemas.npc import NPCRead
 
@@ -29,6 +29,7 @@ class LocationPartialUpdate(LocationExpandBase):
 
 class LocationRead(LocationExpandBase):
     id: int
-    characters: list[PlayerCharacterRead] | None
+    characters: list[PlayerCharacterBase] | None
     npcs: list[NPCRead] | None
     enemies: list[EnemyRead] | None
+    related_locations: list[LocationBase] | None

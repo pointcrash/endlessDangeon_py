@@ -46,6 +46,9 @@ async def get_all_user_data_by_telegram_id(
             joinedload(User.character)
             .joinedload(PlayerCharacter.location)
             .joinedload(Location.characters),
+            joinedload(User.character)
+            .joinedload(PlayerCharacter.location)
+            .joinedload(Location.related_locations),
         )
     )
     user = await session.scalar(stmt)
