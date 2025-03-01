@@ -5,7 +5,7 @@ from core.config import settings
 from .users import router as users_router
 from .character_base import router as characters_router
 
-from .inventorys import router as inventory_router
+from .inventory_base import router as inventory_router
 
 router = APIRouter(prefix=settings.api.v1.prefix)
 
