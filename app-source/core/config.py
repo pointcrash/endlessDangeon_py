@@ -12,6 +12,7 @@ class ApiV1Prefix(BaseModel):
     users: str = "/users"
     characters: str = "/characters"
     inventory: str = "/inventory"
+    locations: str = "/locations"
 
 
 class ApiPrefix(BaseModel):
