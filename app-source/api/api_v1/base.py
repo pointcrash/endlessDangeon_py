@@ -4,7 +4,7 @@ from typing import Type, TypeVar, Generic, Optional
 from pydantic import BaseModel
 
 from api.api_v1.crud import AsyncCRUDBase
-from api.api_v1.dependencies.get_obj_by_id import GetObjByIDDepend
+from api.api_v1.dependencies.get_obj_by_id import GetObjByIDDependence
 from core.models import db_helper, Base
 
 ModelType = TypeVar("ModelType", bound=Base)
@@ -41,7 +41,7 @@ class BaseView(
         # self.create_schema = create_schema
         # self.update_schema = update_schema
         # self.partial_update_schema = partial_update_schema
-        self.get_obj_by_id = GetObjByIDDepend(self.crud)
+        self.get_obj_by_id = GetObjByIDDependence(self.crud)
 
         @self.router.get("", response_model=list[read_schema])
         async def get_all(session: AsyncSession = Depends(db_helper.session_getter)):
